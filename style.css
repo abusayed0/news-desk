@@ -6,3 +6,6 @@
 #categories-container li{
     cursor: pointer;
 }
+#categories-container li:hover {
+    text-decoration: underline;
+}
