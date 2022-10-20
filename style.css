@@ -1,0 +1,8 @@
+#categories-container{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+#categories-container li{
+    cursor: pointer;
+}
