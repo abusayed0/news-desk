@@ -23,6 +23,7 @@ const displayNewsCategories = (allCategories) => {
 }
 /* function for load any specific category news */
 const loadCategoryNews = async (categoryId) => {
+    document.getElementById("news-container").innerHTML = "";
     const url = `https://openapi.programming-hero.com/api/news/category/0${categoryId}`
     try {
         const res = await fetch(url);
@@ -57,14 +58,41 @@ const displayCategoryNewes = newses => {
                             </select>
                         </div>
                     </div>
-                    <div class=" d-flex justify-content-between mt-3 mt-md-0">
+                    <div class=" d-flex justify-content-between mt-4 mt-md-0">
                             <button type="button" class="btn btn-primary me-md-2 disabled">Today's Pick</button>
                             <button type="button" class="btn btn-outline-primary disabled">Trending</button>
                     </div
         
        
                  `
-        
+        newses.sort(function (a, b) {
+            return b.total_view - a.total_view
+        });
+        newses.forEach(news => {
+            console.log(news)
+            const newsContainer = document.getElementById("news-container");
+            const div = document.createElement("div");
+            div.classList.add("col");
+            div.innerHTML = `
+            
+    <div class="card">
+        <div class="row g-0">
+            <div class="col-12 col-md-4">
+                <img src=${news.thumbnail_url} class="w-100 h-100 rounded-start" alt="...">
+            </div>
+            <div class="col-12 col-md-8">
+                <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                </div>
+            </div>
+        </div>
+    </div>
+            
+            `
+        newsContainer.appendChild(div)
+        })
 
 
     }
