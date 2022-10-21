@@ -16,38 +16,38 @@ const displayNewsCategories = (allCategories) => {
     const categoriesContainer = document.getElementById("categories-container")
     allCategories.forEach(category => {
         const li = document.createElement("li");
-        li.setAttribute("onclick", `loadCategoryNews(${category.category_id})`)
+        li.setAttribute("onclick", `loadCategoryNews(${category.category_id},'${category.category_name}')`)
         li.innerText = `${category.category_name}`;
         categoriesContainer.appendChild(li)
     });
 }
 /* function for load any specific category news */
-const loadCategoryNews = async (categoryId) => {
+const loadCategoryNews = async (categoryId,categoryName) => {
+    document.getElementById("news-count").innerHTML = "";
+    document.getElementById("sort-and-type-btn").innerHTML = "";
     document.getElementById("news-container").innerHTML = "";
+    document.getElementById("spinner").classList.remove("d-none");
     const url = `https://openapi.programming-hero.com/api/news/category/0${categoryId}`
     try {
         const res = await fetch(url);
         const data = await res.json();
-        displayCategoryNewes(data.data);
+        displayCategoryNewes(data.data,categoryName);
     }
     catch (err) {
         console.log(err)
     }
 }
 /* function for display news for a specific category */
-const displayCategoryNewes = newses => {
+const displayCategoryNewes = (newses,categoryName) => {
     console.log(newses)
+    document.getElementById("spinner").classList.add("d-none");
     const newsCount = document.getElementById("news-count");
     newsCount.innerHTML = `
-                 <p class="py-2 ps-5 bg-secondary text-white">${newses.length > 0 ? `${newses.length} News Found` : "No News Found"}</p>
+                 <p class="py-2 ps-5 bg-secondary text-white">${newses.length > 0 ? `${newses.length} News Found For ${categoryName}` : `No News Found For ${categoryName}`}</p>
     `
-    /* sort by and news type btn will not shown when no news found in this category */
-    if (newses.length < 1) {
-        document.getElementById("sort-and-type-btn").innerHTML = "";
-    }
 
     /*  sort by and news type btn created dynamically,will shown only when have 1 or more have in this category */
-    else {
+    if(newses.length >= 1) {
         const sortAndTypeBtn = document.getElementById("sort-and-type-btn")
         sortAndTypeBtn.innerHTML = `
                     <div class="d-flex justify-content-evenly align-items-center">
@@ -68,6 +68,7 @@ const displayCategoryNewes = newses => {
         newses.sort(function (a, b) {
             return b.total_view - a.total_view
         });
+        /* created card for every news and added content */
         newses.forEach(news => {
             console.log(news)
             const newsContainer = document.getElementById("news-container");
@@ -99,7 +100,7 @@ const displayCategoryNewes = newses => {
                         </div>
                     </div>
                     <div class="d-flex justify-content-end mt-2">
-                        <i class="fa-solid fa-right-long fs-1 text-success"></i>
+                        <i class="fa-solid fa-right-long fs-1 text-success details" onclick="loadNewsDetails('${news._id}')" data-bs-toggle="modal" data-bs-target="#staticBackdrop"></i>
                     </div>
                 </div>
             </div>
@@ -113,5 +114,40 @@ const displayCategoryNewes = newses => {
 
 };
 
+const loadNewsDetails =(newsId)=>{
+    const url = `https://openapi.programming-hero.com/api/news/${newsId}`
+    fetch(url)
+    .then(res => res.json())
+    .then(data => displayNewsDetails(data.data[0]))
+    .catch(err => console.log(err))
+}
+const displayNewsDetails = (details)=>{
+    console.log(details)
+    document.getElementById("staticBackdropLabel").innerText = details.title;
+    const modalBody= document.getElementById("modal-body");
+    modalBody.innerHTML = ` 
+    <div class="card">
+        <img src="${details.image_url}" class="card-img-top" alt="...">
+        <div class="card-body">
+            <p class="card-text">${details.details.length<200?`${details.details}`:`${details.details.slice(0,200)}...`}</p>
+            <p class="card-text">rating : ${details?.rating?.badge??"no data found"} (${details?.rating?.number??"no data found"}).</p>
+            <div class ="d-flex justify-content-between align-items-center">
+                <div class="d-flex">
+                    <img src =${details.author.img}  alt="" style="width: 40px" class="rounded-circle">
+                    <div>
+                        <p class="card-text mb-1">${details.author?.name??"no data found"}</p>
+                        <p class="card-text">${details.author?.published_date??"no data found"}</p>
+                    </div>
+                </div>
+                <div class="d-flex align-items-center">
+                    <i class="fa-solid fa-eye"></i>
+                    <p class = "card-text">${details?.total_view??"no data found"}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    `
+}
 
 loadNewsCategories();

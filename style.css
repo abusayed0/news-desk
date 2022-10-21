@@ -3,7 +3,7 @@
     margin: 0;
     padding: 0;
 }
-#categories-container li{
+#categories-container li,.details{
     cursor: pointer;
 }
 #categories-container li:hover {
