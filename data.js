@@ -50,8 +50,8 @@ const displayCategoryNewes = newses => {
     else {
         const sortAndTypeBtn = document.getElementById("sort-and-type-btn")
         sortAndTypeBtn.innerHTML = `
-                    <div class="d-flex justify-content-evenly align-items-baseline">
-                         <label for="disabled-option" class="form-label">Sort By View : </label>
+                    <div class="d-flex justify-content-evenly align-items-center">
+                         <label for="disabled-option">Sort By View : </label>
                         <div class = "ms-md-2">
                         <select  id="disabled-option" class="form-select" aria-label="Disabled select example" disabled>
                             <option selected>Default</option>
@@ -75,20 +75,34 @@ const displayCategoryNewes = newses => {
             div.classList.add("col");
             div.innerHTML = `
             
-    <div class="card">
-        <div class="row g-0">
-            <div class="col-12 col-md-4">
-                <img src=${news.thumbnail_url} class="w-100 h-100 rounded-start" alt="...">
-            </div>
-            <div class="col-12 col-md-8">
+            <div class="card h-100">
+                <img src=${news.thumbnail_url} class="card-img-top" alt="..." style = "height:300px;">
                 <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                    <h5 class="card-title">${news.title}</h5>
+                    <p class="card-text">${news.details.length<200?`${news.details}`:`${news.details.slice(0,200)}...`}</p>
+                    <div class="d-flex justify-content-between align-items-center flex-wrap">
+                        <div class="d-flex">
+                                <img src =${news.author.img}  alt="" style="width: 40px" class="rounded-circle">
+                                <div>
+                                    <p class="card-text mb-1">${news.author?.name??"no data found"}</p>
+                                    <p class="card-text">${news.author?.published_date??"no data found"}</p>
+                                </div>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <i class="fa-solid fa-eye"></i>
+                            <p class = "card-text">${news?.total_view??"no data found"}</p>
+                        </div>
+                        <div>
+                            <i class="fa-regular fa-star"></i>
+                            <i class="fa-regular fa-star-half-stroke"></i>
+                            <i class="fa-solid fa-star"></i>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-end mt-2">
+                        <i class="fa-solid fa-right-long fs-1 text-success"></i>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
             
             `
         newsContainer.appendChild(div)
