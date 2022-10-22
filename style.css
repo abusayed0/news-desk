@@ -12,7 +12,7 @@
 body{
     background-color: #ebe7e5;
 }
-.card-bg{
+.card-bg,.blog-bg{
     background-color: #e0ebde;
 }
 #count-text{
