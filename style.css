@@ -9,3 +9,15 @@
 #categories-container li:hover {
     text-decoration: underline;
 }
+body{
+    background-color: #ebe7e5;
+}
+.card-bg{
+    background-color: #e0ebde;
+}
+#count-text{
+    background-color: #eae5ed;
+}
+#main-container{
+    min-height: 80vh;
+}
