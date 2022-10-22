@@ -39,7 +39,6 @@ const loadCategoryNews = async (categoryId,categoryName) => {
 }
 /* function for display news for a specific category */
 const displayCategoryNewes = (newses,categoryName) => {
-    console.log(newses)
     document.getElementById("spinner").classList.add("d-none");
     const newsCount = document.getElementById("news-count");
     newsCount.innerHTML = `
@@ -70,7 +69,6 @@ const displayCategoryNewes = (newses,categoryName) => {
         });
         /* created card for every news and added content */
         newses.forEach(news => {
-            console.log(news)
             const newsContainer = document.getElementById("news-container");
             const div = document.createElement("div");
             div.classList.add("col");
@@ -124,7 +122,6 @@ const loadNewsDetails =(newsId)=>{
 
 /* function for display news details  */
 const displayNewsDetails = (details)=>{
-    console.log(details)
     document.getElementById("staticBackdropLabel").innerText = details.title;
     
     const modalBody= document.getElementById("modal-body");
