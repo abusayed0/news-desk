@@ -152,5 +152,5 @@ const displayNewsDetails = (details)=>{
     
     `
 }
-loadCategoryNews(08)
+loadCategoryNews(08,"All News")
 loadNewsCategories();
